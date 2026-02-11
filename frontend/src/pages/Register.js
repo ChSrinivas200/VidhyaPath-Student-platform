@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../services/api'; 
 import { Link, useNavigate } from 'react-router-dom';
-import VidyaPathLogo from '../components/VidyaPathLogo'; // ✅ Import your new logo
+import VidyaPathLogo from '../components/VidyaPathLogo'; // ✅ Import  your new logo
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });

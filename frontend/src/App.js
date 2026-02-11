@@ -17,12 +17,14 @@ import PdfTools from './pages/PdfTools';
 import PdfToolView from './pages/PdfToolView'; 
 import StudyPlanner from './pages/StudyPlanner'; 
 import FocusPage from './pages/FocusPage';
+import MentorPath from './pages/MentorPath'; 
+import StudentBasket from './pages/StudentBasket'; // ✅ NEW IMPORT
 
 // --- Components ---
 import Layout from './components/Layout';
 import SplashScreen from './components/SplashScreen';
 
-// --- Private Route Logic ---
+// --- Private Route  Logic ---
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('token');
   return token ? children : <Navigate to="/login" />;
@@ -45,7 +47,8 @@ function App() {
   return (
     // ✅ WRAP THE ROUTER IN THEME PROVIDER
     <ThemeProvider>
-      <Router>
+      {/* ✅ ADDED FUTURE FLAGS to silence console warnings */}
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
 
           {/* -------------------- PUBLIC ROUTES -------------------- */}
@@ -165,6 +168,30 @@ function App() {
               <PrivateRoute>
                 <Layout>
                   <Visualizer />
+                </Layout>
+              </PrivateRoute>
+            }
+          />
+
+          {/* Mentorship Module */}
+          <Route 
+            path="/mentor-path"
+            element={
+              <PrivateRoute>
+                <Layout>
+                  <MentorPath />
+                </Layout>
+              </PrivateRoute>
+            }
+          />
+
+          {/* ✅ StudentBasket Module */}
+          <Route 
+            path="/student-basket"
+            element={
+              <PrivateRoute>
+                <Layout>
+                  <StudentBasket />
                 </Layout>
               </PrivateRoute>
             }

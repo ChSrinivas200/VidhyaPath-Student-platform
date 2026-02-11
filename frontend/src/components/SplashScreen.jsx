@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import VidyaPathLogo from './VidyaPathLogo'; // ✅ Import your new logo
+import VidyaPathLogo from './VidyaPathLogo'; // ✅ Import  your new logo
 
 const SplashScreen = ({ duration = 2500 }) => {
   const [progress, setProgress] = useState(0);

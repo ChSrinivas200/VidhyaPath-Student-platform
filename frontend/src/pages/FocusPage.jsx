@@ -5,7 +5,7 @@ import { updateTask } from '../services/plannerService';
 import confetti from 'canvas-confetti';
 
 const FocusPage = () => {
-  const { state } = useLocation(); // Receive task data passed from Planner
+  const { state } = useLocation(); // Receive  task data passed from Planner
   const navigate = useNavigate();
   
   // Default to 25 minutes (1500 seconds)

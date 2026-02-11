@@ -20,7 +20,7 @@ const VidyaPathLogo = ({ size = 48, className = "" }) => {
         opacity="0.6"
       />
 
-      {/* 2. The Path (Winding Road - Gold/Orange Gradient) */}
+      {/* 2. The Path (Winding Road -  Gold/Orange Gradient) */}
       <path 
         d="M50 55 C 50 55, 65 45, 50 25" 
         stroke="url(#pathGradient)" 

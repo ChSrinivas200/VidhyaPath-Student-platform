@@ -19,7 +19,7 @@ body {
     animation: spin 1s linear infinite;
   }
 
-  /* Fade In Animation for Page Transitions */
+  /* Fade In Animation  for Page Transitions */
   .animate-fadeIn {
     animation: fadeIn 0.4s ease-out forwards;
   }

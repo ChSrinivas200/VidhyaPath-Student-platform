@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@mistralai/mistralai": "^1.13.0",
     "axios": "^1.13.2",
     "bcryptjs": "^2.4.3",
     "cohere-ai": "^7.19.0",

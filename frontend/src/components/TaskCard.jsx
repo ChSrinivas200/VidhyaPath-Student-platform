@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// ✅ Switched to react-icons/fi for consistency with Dashboard
+// ✅ Switched to react-icons/fi for consistency  with Dashboard
 import { FiCheckCircle, FiFileText, FiTrash2, FiCalendar, FiClock, FiPlay } from 'react-icons/fi';
 import confetti from 'canvas-confetti';
 

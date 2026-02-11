@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { 
   FiBookOpen, FiZoomIn, FiZoomOut, FiMoon, FiSun, FiSidebar, 
   FiUploadCloud, FiFileText, FiHelpCircle, FiClock, FiWatch, 
-  FiPlay, FiPause, FiRotateCcw, FiEdit, FiCheck, FiCpu 
+  FiPlay, FiPause, FiRotateCcw, FiEdit, FiCheck, FiCpu, FiSave, FiDownload 
 } from 'react-icons/fi';
 
-// --- Timer/Stopwatch Widget Component ---
+// --- Timer/Stopwatch Widget Component (Unchanged) ---
 const TimerWidget = ({ darkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState('timer'); // 'timer' or 'stopwatch'
@@ -22,7 +22,7 @@ const TimerWidget = ({ darkMode }) => {
   const [stopwatchTime, setStopwatchTime] = useState(0);
   const [isStopwatchActive, setIsStopwatchActive] = useState(false);
 
-  // --- Timer Logic ---
+  // --- Timer  Logic ---
   useEffect(() => {
     let interval = null;
     if (isTimerActive && timeLeft > 0) {
@@ -225,6 +225,28 @@ export default function PdfViewer() {
     if (action === 'quiz') navigate('/quiz-generator');
   };
 
+  // --- NEW: Save Notes to .txt Function ---
+  const saveNotesToTxt = () => {
+    if (!notes.trim()) {
+      alert("Your notes are empty! Type something before saving.");
+      return;
+    }
+    
+    const element = document.createElement("a");
+    const file = new Blob([notes], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    
+    // Naming the file based on the PDF name or default
+    const downloadName = fileName 
+      ? `Notes_for_${fileName.replace('.pdf', '')}.txt` 
+      : "My_Study_Notes.txt";
+      
+    element.download = downloadName;
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+    document.body.removeChild(element);
+  };
+
   return (
     <div className={`flex flex-col h-screen animate-fadeIn ${darkMode ? 'bg-slate-900 text-gray-200' : 'bg-gray-50 text-slate-800'} transition-colors duration-300`}>
       {/* --- Top Bar --- */}
@@ -255,7 +277,7 @@ export default function PdfViewer() {
                 <input type="file" accept=".pdf" onChange={handleFileChange} className="hidden" id="pdf-upload"/>
                 <label htmlFor="pdf-upload" className="cursor-pointer flex flex-col items-center p-10 w-full h-full justify-center group">
                   <div className="bg-indigo-50 p-4 rounded-full mb-4 group-hover:scale-110 transition-transform">
-                     <FiUploadCloud size={40} className="text-indigo-500" />
+                      <FiUploadCloud size={40} className="text-indigo-500" />
                   </div>
                   <p className="text-xl font-bold mt-2 text-slate-700 dark:text-gray-200">Click to upload a PDF</p>
                   <p className="text-sm text-slate-400 mt-2">Resume exactly where you left off</p>
@@ -273,11 +295,21 @@ export default function PdfViewer() {
         {/* --- Notes Sidebar --- */}
         {showNotes && (
           <div className={`w-80 flex-shrink-0 flex flex-col border-l transition-all duration-300 z-10 ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'}`}>
-            <div className="p-4 border-b dark:border-slate-700">
-                <h2 className="font-bold flex items-center gap-2 text-slate-800 dark:text-white">
-                    <FiFileText className="text-indigo-500" /> Study Notes
-                </h2>
-                <p className="text-xs text-slate-400 mt-1">Auto-saved to browser</p>
+            <div className="p-4 border-b dark:border-slate-700 flex justify-between items-center">
+                <div>
+                  <h2 className="font-bold flex items-center gap-2 text-slate-800 dark:text-white">
+                      <FiFileText className="text-indigo-500" /> Study Notes
+                  </h2>
+                  <p className="text-xs text-slate-400 mt-1">Auto-saved to browser</p>
+                </div>
+                {/* --- NEW: Save Button --- */}
+                <button 
+                  onClick={saveNotesToTxt}
+                  className="p-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg transition-colors flex items-center gap-1 text-xs font-bold shadow-sm"
+                  title="Download as .txt"
+                >
+                  <FiDownload size={14} /> Save
+                </button>
             </div>
             
             <textarea 
@@ -303,4 +335,4 @@ export default function PdfViewer() {
       </div>
     </div>
   );
-} 
+}

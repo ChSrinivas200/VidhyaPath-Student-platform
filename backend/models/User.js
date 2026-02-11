@@ -2,11 +2,15 @@ const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  
+  // ✅ ADDED: Field exists so seeding works, but NO "unique: true"
+  username: { type: String }, 
+
+  email: { type: String, required: true, unique: true }, // Email stays unique
   password: { type: String, required: true },
   date: { type: Date, default: Date.now },
   
-  // --- 1. GAMIFICATION (Scores & Streak) ---
+  // --- 1. GAMIFICATION ---
   gamification: {
     xp: { type: Number, default: 0 },
     streak: {
@@ -17,7 +21,7 @@ const UserSchema = new mongoose.Schema({
     }
   },
 
-  // --- 2. HABITS (Daily Rituals) ---
+  // --- 2. HABITS ---
   habits: {
     type: [{
       id: String,
@@ -25,7 +29,6 @@ const UserSchema = new mongoose.Schema({
       icon: String, 
       completed: { type: Boolean, default: false }
     }],
-    // This default ensures NEW users get habits immediately
     default: [
       { id: 'read', name: 'Read 15m', icon: 'BookOpen', completed: false },
       { id: 'code', name: 'Code 1h', icon: 'Code', completed: false },

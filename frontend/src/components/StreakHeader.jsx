@@ -3,7 +3,7 @@ import { Flame, Snowflake, Trophy } from 'lucide-react';
 
 const StreakHeader = ({ gamification }) => {
   // --- SAFETY FIX START ---
-  // If gamification is null/undefined, we default to 0 so the UI always shows.
+  // If gamification is null/undefined, we  default to 0 so the UI always shows.
   // We only show the loading pulse if we are truly waiting (optional logic),
   // but for now, let's prioritize showing the UI.
   

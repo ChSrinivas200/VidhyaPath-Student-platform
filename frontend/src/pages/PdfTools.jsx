@@ -5,7 +5,7 @@ import {
   FiLayers, FiScissors, FiMinimize2, FiFileText, 
   FiImage, FiRotateCw, FiTool 
 } from 'react-icons/fi';
-import { FaTools } from 'react-icons/fa'; // Keeping the main tool icon
+import { FaTools } from 'react-icons/fa'; //  Keeping the main tool icon
 
 const PdfTools = () => {
   const navigate = useNavigate();

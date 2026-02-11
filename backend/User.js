@@ -25,5 +25,5 @@ const UserSchema = new mongoose.Schema({
   },
 }, { timestamps: true }); // Adds createdAt and updatedAt timestamps
 
-// Export the model
+// Export the mode
 module.exports = mongoose.model('User', UserSchema);

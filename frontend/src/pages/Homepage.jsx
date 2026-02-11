@@ -13,7 +13,7 @@ const Homepage = () => {
   // Function to fetch articles from the backend
   const fetchArticles = async () => {
     try {
-      // Use api.get (base URL is handled automatically)
+      // Use api.get (base URL is handled  automatically)
       const res = await api.get('/articles'); 
       setArticles(res.data);
       setError('');

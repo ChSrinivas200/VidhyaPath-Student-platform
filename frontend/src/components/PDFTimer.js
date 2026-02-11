@@ -17,7 +17,7 @@ const PDFTimer = () => {
             clearInterval(interval);
             setIsActive(false);
             alert("Session Complete! Great work.");
-            // TODO: Call your backend API here to save the session
+            // TODO: Call your backend  API here to save the session
             // saveToBackend(25); 
           } else {
             setMinutes(minutes - 1);

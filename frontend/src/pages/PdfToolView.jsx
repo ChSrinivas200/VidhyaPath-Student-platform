@@ -24,7 +24,7 @@ const PdfToolView = () => {
     // Determine allowed types based on tool
     const isImageTool = toolId === 'img-to-pdf';
     
-    // Filter files (Images for img-to-pdf, PDFs for everything else)
+    // Filter files (Images for img-to-pdf,  PDFs for everything else)
     const validFiles = acceptedFiles.filter(file => 
         isImageTool 
             ? (file.type === 'image/jpeg' || file.type === 'image/png') 

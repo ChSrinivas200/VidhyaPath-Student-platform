@@ -8,7 +8,7 @@
   padding: 10px 0 !important;
 }
 .react-calendar__tile--active {
-  background: #4f46e5 !important; /* Indigo-600 */
+  background: #4f46e5 !important; /*  Indigo-600 */
   color: white !important;
   border-radius: 8px;
 }

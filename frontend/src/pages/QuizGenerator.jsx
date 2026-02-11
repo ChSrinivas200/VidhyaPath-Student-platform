@@ -18,7 +18,7 @@ const QuizGenerator = () => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [score, setScore] = useState(null);
 
-  // --- 1. Handle File Selection ---
+  // --- 1. Handle  File Selection ---
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type === 'application/pdf') {

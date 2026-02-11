@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import api from '../services/api'; 
 import { Link, useNavigate } from 'react-router-dom';
 import { FiLogIn } from 'react-icons/fi';
-import VidyaPathLogo from '../components/VidyaPathLogo'; // ✅ Import your new logo
+import VidyaPathLogo from '../components/VidyaPathLogo'; // ✅  Import your new logo
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });

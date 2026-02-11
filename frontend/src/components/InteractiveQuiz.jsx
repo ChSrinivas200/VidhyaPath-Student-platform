@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // --- SVG Icon Components ---
-// Replaced react-icons to remove dependency error.
+// Replaced react-icons to remove  dependency error.
 
 const FiCheck = ({ className }) => (
   <svg

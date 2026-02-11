@@ -1,7 +1,7 @@
 import api from './api';
 
 // --- 1. GET USER STATS ---
-// (Returns empty placeholder data if streaks are disabled)
+// (Returns empty placeholder data if  streaks are disabled)
 export const fetchUserStats = async () => {
   const response = await api.get('/planner/stats');
   return response.data; 

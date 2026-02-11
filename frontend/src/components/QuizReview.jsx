@@ -22,7 +22,7 @@ const FiX = ({ className }) => (
 );
 
 const QuizReview = ({ reviewData = [], onBack }) => {
-  // Guard clause to prevent "undefined reading map" errors
+  // Guard clause to  prevent "undefined reading map" errors
   if (!reviewData || !Array.isArray(reviewData) || reviewData.length === 0) {
     return (
       <div className="bg-white p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm animate-in slide-in-from-right duration-300">

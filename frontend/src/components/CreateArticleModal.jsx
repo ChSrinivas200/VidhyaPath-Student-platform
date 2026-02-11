@@ -19,7 +19,7 @@ const CreateArticleModal = ({ isOpen, onClose, onArticleCreated }) => {
     setError('');
 
     try {
-      // Get the real username from local storage
+      // Get the real username from loca storage
       const author = localStorage.getItem('userName') || 'Anonymous';
       
       // ✅ Use api.post (base URL is handled automatically)

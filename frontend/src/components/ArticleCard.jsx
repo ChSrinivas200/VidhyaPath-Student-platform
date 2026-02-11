@@ -21,7 +21,7 @@ const ArticleCard = ({ post }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-4 hover:shadow-md transition-shadow cursor-pointer">
       
-      {/* Header: Author and Time */}
+      {/* Header: Author and Tim */}
       <div className="flex items-center text-xs text-slate-500 mb-2 space-x-2">
         <div className="flex items-center font-medium text-slate-700">
           <User className="w-3 h-3 mr-1" />

@@ -12,7 +12,7 @@ const StudyPlanner = () => {
   const [newTask, setNewTask] = useState({
     title: '',
     subject: '',
-    dueDate: new Date().toISOString().split('T')[0], // Default today
+    dueDate: new Date().toISOString().split('T')[0], //  Default today
     priority: 'do_first'
   });
 

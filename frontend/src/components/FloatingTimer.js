@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PDFTimer from './PDFTimer'; // Import the timer we made earlier
-// If you don't have an icon library, use this simple SVG below
+// If you don't have an icon library, usethis simple SVG below
 // or import { FaClock } from 'react-icons/fa'; 
 
 const FloatingTimer = () => {

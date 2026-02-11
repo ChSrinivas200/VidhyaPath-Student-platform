@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
       <Sidebar />
 
       {/* Main Content Area */}
-      {/* ✅ Added 'animate-fadeIn' for smooth page transitions */}
+      {/* ✅ Added 'animate-fadeIn'  for smooth page transitions */}
       <main className="flex-1 overflow-y-auto p-6 lg:p-10 animate-fadeIn">
         {children}
       </main>

@@ -56,7 +56,7 @@ const Summarizer = () => {
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto min-h-screen bg-gray-50 text-gray-800 font-sans animate-fadeIn">
       
-      {/* Header */}
+      {/* Header  */}
       <div className="mb-10 text-center">
         <div className="inline-flex items-center justify-center p-3 bg-indigo-100 text-indigo-600 rounded-full mb-4">
            <FiFileText size={32} />
