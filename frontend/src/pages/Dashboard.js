@@ -2,30 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FiFileText, FiHelpCircle, FiClock, FiArrowRight, FiBook, 
-  FiLayout, FiTrash2, FiMic, FiVideoOff, FiActivity, FiUserCheck, FiUserX,
-  FiMusic, FiPlay, FiSquare, FiHeadphones
+  FiLayout, FiTrash2, FiActivity, FiMusic, FiPlay, FiSquare, FiHeadphones
 } from 'react-icons/fi';
 import confetti from 'canvas-confetti';
 
 import TaskCard from '../components/TaskCard';
 import Visualizer from './Visualizer'; 
 import { fetchTasks, updateTask, deleteTask } from '../services/plannerService';
-
-// --- HELPER: Beep Sound (For Critical Warnings) ---
-const playWarningBeep = () => {
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const oscillator = audioCtx.createOscillator();
-  const gainNode = audioCtx.createGain();
-
-  oscillator.type = 'sawtooth'; 
-  oscillator.frequency.setValueAtTime(800, audioCtx.currentTime); // High pitch alert
-  oscillator.connect(gainNode);
-  gainNode.connect(audioCtx.destination);
-
-  oscillator.start();
-  gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.3);
-  oscillator.stop(audioCtx.currentTime + 0.3);
-};
 
 // --- SUB-COMPONENT: Focus Frequency Player (Frontend Generator) ---
 const FocusMusicWidget = () => {
@@ -131,165 +114,6 @@ const FocusMusicWidget = () => {
   );
 };
 
-// --- SUB-COMPONENT: Realistic Noise Monitor (Fluctuating) ---
-const NoiseMonitor = () => {
-  const [isNoisy, setIsNoisy] = useState(false);
-  const [volume, setVolume] = useState(35); // Start at 35dB (Default Room Noise)
-  const lastVolumeRef = useRef(35);
-
-  useEffect(() => {
-    let audioContext, analyser, microphone, javascriptNode;
-    const startListening = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        microphone = audioContext.createMediaStreamSource(stream);
-        javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
-
-        analyser.smoothingTimeConstant = 0.8;
-        analyser.fftSize = 1024;
-
-        microphone.connect(analyser);
-        analyser.connect(javascriptNode);
-        javascriptNode.connect(audioContext.destination);
-
-        javascriptNode.onaudioprocess = () => {
-          const array = new Uint8Array(analyser.frequencyBinCount);
-          analyser.getByteFrequencyData(array);
-          let values = 0;
-          for (let i = 0; i < array.length; i++) values += array[i];
-          const rawAverage = values / array.length;
-
-          // --- REALISM LOGIC ---
-          const jitter = (Math.random() * 4) - 2; 
-          let targetVolume = (rawAverage * 1.5) + 30 + jitter;
-
-          const smoothVolume = (lastVolumeRef.current * 0.8) + (targetVolume * 0.2);
-          lastVolumeRef.current = smoothVolume;
-          
-          const finalVol = Math.floor(smoothVolume);
-          setVolume(finalVol);
-          setIsNoisy(finalVol > 65);
-        };
-      } catch (err) { console.warn("Mic Error", err); }
-    };
-    startListening();
-    return () => { if (audioContext) audioContext.close(); };
-  }, []);
-
-  return (
-    <div className={`p-4 rounded-xl border transition-all duration-300 flex items-center gap-4 ${isNoisy ? 'bg-red-50 border-red-200 animate-pulse' : 'bg-emerald-50 border-emerald-200'}`}>
-      <div className={`p-3 rounded-full ${isNoisy ? 'bg-red-100 text-red-600' : 'bg-emerald-100 text-emerald-600'}`}>
-        <FiMic size={24} />
-      </div>
-      <div>
-        <h3 className="font-bold text-slate-800">Noise Level</h3>
-        <div className="flex items-center gap-2">
-            <span className={`text-2xl font-bold font-mono ${isNoisy ? 'text-red-600' : 'text-emerald-600'}`}>
-                {volume}
-            </span>
-            <span className="text-xs font-bold text-gray-400 mt-2">dB</span>
-        </div>
-        <p className={`text-xs font-semibold ${isNoisy ? 'text-red-500' : 'text-emerald-500'}`}>
-          {isNoisy ? "⚠️ Too Loud" : "✅ Good Focus"}
-        </p>
-      </div>
-    </div>
-  );
-};
-
-// --- SUB-COMPONENT: Smart Proctor Monitor (Tuned) ---
-const PresenceMonitor = () => {
-  const [status, setStatus] = useState("good"); // good, warning, bad
-  const [message, setMessage] = useState("Active & Focused");
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
-  const lastPixels = useRef(null);
-  const warningCount = useRef(0);
-
-  useEffect(() => {
-    let stream = null;
-    let interval = null;
-
-    const startCamera = async () => {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 240 } });
-        if (videoRef.current) videoRef.current.srcObject = stream;
-        interval = setInterval(() => checkPresence(), 1000); // Check every second
-      } catch (err) {
-        setStatus("bad");
-        setMessage("Camera Access Denied");
-      }
-    };
-
-    const checkPresence = () => {
-      if (!videoRef.current || !canvasRef.current) return;
-      const context = canvasRef.current.getContext('2d');
-      context.drawImage(videoRef.current, 0, 0, 320, 240);
-      const currentPixels = context.getImageData(0, 0, 320, 240).data;
-
-      // 1. DARKNESS CHECK
-      let totalBrightness = 0;
-      for (let i = 0; i < currentPixels.length; i += 4) totalBrightness += (currentPixels[i] + currentPixels[i+1] + currentPixels[i+2]) / 3;
-      const avgBrightness = totalBrightness / (currentPixels.length / 4);
-
-      if (avgBrightness < 10) { 
-        setStatus("bad");
-        setMessage("Camera Covered / Dark");
-        playWarningBeep();
-        return;
-      }
-
-      // 2. MOTION CHECK
-      if (lastPixels.current) {
-        let diff = 0;
-        for (let i = 0; i < currentPixels.length; i += 40) diff += Math.abs(currentPixels[i] - lastPixels.current[i]);
-
-        if (diff < 2000) { 
-            warningCount.current += 1;
-        } else {
-            warningCount.current = 0; 
-            setStatus("good");
-            setMessage("Face Detected");
-        }
-
-        if (warningCount.current > 4) {
-            setStatus("warning");
-            setMessage("No Movement / Absent");
-        }
-      }
-      lastPixels.current = currentPixels;
-    };
-
-    startCamera();
-    return () => {
-      if (stream) stream.getTracks().forEach(track => track.stop());
-      if (interval) clearInterval(interval);
-    };
-  }, []);
-
-  const getStyles = () => {
-    if (status === "good") return { color: "bg-emerald-100 text-emerald-600", border: "bg-emerald-50 border-emerald-200", icon: <FiUserCheck size={24}/> };
-    if (status === "warning") return { color: "bg-orange-100 text-orange-600", border: "bg-orange-50 border-orange-200", icon: <FiUserX size={24}/> };
-    return { color: "bg-red-100 text-red-600 animate-pulse", border: "bg-red-50 border-red-200", icon: <FiVideoOff size={24}/> };
-  };
-  const style = getStyles();
-
-  return (
-    <div className={`p-4 rounded-xl border transition-all duration-300 flex items-center gap-4 ${style.border}`}>
-      <video ref={videoRef} autoPlay muted className="hidden" width="320" height="240" />
-      <canvas ref={canvasRef} className="hidden" width="320" height="240" />
-      
-      <div className={`p-3 rounded-full ${style.color}`}>{style.icon}</div>
-      <div>
-        <h3 className="font-bold text-slate-800">Proctor Monitor</h3>
-        <p className="text-sm font-semibold">{message}</p>
-      </div>
-    </div>
-  );
-};
-
 // --- MAIN DASHBOARD ---
 const Dashboard = () => {
   const [userName, setUserName] = useState('');
@@ -360,21 +184,14 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* --- SMART PROCTOR SECTION --- */}
+      {/* --- SMART ENVIRONMENT SECTION --- */}
       <div>
         <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
             <FiActivity className="text-indigo-500"/> Smart Environment
         </h2>
-        {/* UPDATED GRID with Music Module */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Module 1: Music Player */}
             <FocusMusicWidget />
-            
-            {/* Module 2: Noise (Fluctuating) */}
-            <NoiseMonitor />
-            
-            {/* Module 3: Proctor (Movement/Darkness) */}
-            <PresenceMonitor />
         </div>
       </div>
 
