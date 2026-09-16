@@ -1,10 +1,16 @@
 import axios from 'axios';
 
-// 🔴 COMMENT OUT THE RENDER URL FOR NOW
-// const BASE_URL = 'https://project-hggd.onrender.com/api'; 
+// Dynamic API URL for Render production or local development
+const getBaseUrl = () => {
+  const envUrl = process.env.REACT_APP_API_URL || process.env.REACT_APP_BACKEND_URL;
+  if (envUrl) {
+    return envUrl.endsWith('/api') ? envUrl : `${envUrl.replace(/\/$/, '')}/api`;
+  }
+  // In production, fallback to relative '/api' if hosted together, else local backend
+  return process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5000/api';
+};
 
-// ✅ USE LOCALHOST TO TEST NEW FEATURES
-const BASE_URL = 'http://localhost:5000/api'; 
+const BASE_URL = getBaseUrl(); 
 
 const api = axios.create({
   baseURL: BASE_URL,

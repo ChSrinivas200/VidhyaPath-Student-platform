@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import { 
-  Search, Filter, Briefcase, UserCheck, 
-  MessageSquare, ExternalLink, Zap, X, Upload 
+import {
+  Search,
+  Filter,
+  Briefcase,
+  UserCheck,
+  MessageSquare,
+  ExternalLink,
+  Zap,
+  X,
+  Upload
 } from 'lucide-react';
 
 const MentorPath = () => {
@@ -15,7 +22,12 @@ const MentorPath = () => {
   // Modal State
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
-    name: '', role: '', company: '', skills: '', category: 'Placements', linkedIn: ''
+    name: '',
+    role: '',
+    company: '',
+    skills: '',
+    category: 'Placements',
+    linkedIn: ''
   });
   const [idFile, setIdFile] = useState(null);
 
@@ -81,61 +93,66 @@ const MentorPath = () => {
   };
 
   // --- Filtering ---
-  const filteredMentors = mentors.filter(mentor => 
+  const filteredMentors = mentors.filter(mentor =>
     mentor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     mentor.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
     mentor.skills.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8 font-sans relative overflow-x-hidden">
+    <div className="max-w-6xl mx-auto space-y-8 animate-fadeIn pb-16 font-sans">
       
-      {/* Background Decor */}
-      <div className="fixed top-0 left-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob pointer-events-none"></div>
-      <div className="fixed top-0 right-0 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000 pointer-events-none"></div>
+      {/* --- HERO HEADER --- */}
+      <div className="glass-card rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 relative overflow-hidden">
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 rounded-full bg-gradient-to-br from-purple-500/15 via-indigo-500/15 to-blue-500/15 blur-3xl pointer-events-none" />
 
-      {/* --- HEADER --- */}
-      <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-2">
-            Find Your Mentor 🚀
-          </h1>
-          <p className="text-gray-400 text-sm md:text-base max-w-lg">
-            Connect with seniors and alumni from top companies and universities.
-          </p>
+        <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase tracking-wider mb-3">
+              <Zap size={14} /> Career & Peer Mentorship
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+              MentorPath
+            </h1>
+            <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base mt-1 max-w-xl">
+              Connect with alumni, seniors, and industry practitioners for 1-on-1 career guidance, interview mock sessions, and project advice.
+            </p>
+          </div>
+
+          <button
+            onClick={() => setShowModal(true)}
+            className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-6 py-3.5 rounded-2xl font-black text-sm shadow-lg shadow-purple-500/25 hover:scale-105 active:scale-95 transition-all"
+          >
+            <Zap size={18} />
+            <span>Become a Mentor</span>
+          </button>
         </div>
-        <button 
-          onClick={() => setShowModal(true)}
-          className="w-full md:w-auto bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-bold shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
-        >
-          <Zap size={20} />
-          Become a Mentor
-        </button>
       </div>
 
       {/* --- SEARCH & FILTERS --- */}
-      <div className="relative z-10 bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 p-4 rounded-2xl shadow-xl mb-8 flex flex-col lg:flex-row gap-4 items-center">
+      <div className="glass-card rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 flex flex-col lg:flex-row gap-4 items-center justify-between">
         {/* Search */}
         <div className="relative w-full lg:w-1/3">
-          <Search className="absolute left-4 top-3.5 text-gray-400" size={20} />
-          <input 
-            type="text" 
-            placeholder="Search by name, company, or skill..." 
-            className="w-full bg-gray-900/50 border border-gray-600 text-white pl-12 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+          <Search className="absolute left-4 top-3.5 text-slate-400" size={18} />
+          <input
+            type="text"
+            placeholder="Search by mentor, company, or tech stack..."
+            className="w-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 pl-11 pr-4 py-2.5 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-purple-500 transition-all placeholder-slate-400"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
+
         {/* Filter Chips */}
-        <div className="flex gap-2 overflow-x-auto w-full lg:w-2/3 pb-2 lg:pb-0 no-scrollbar items-center">
+        <div className="flex gap-2 overflow-x-auto w-full lg:w-2/3 pb-1 lg:pb-0 no-scrollbar items-center">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveFilter(cat)}
-              className={`px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-300 border flex-shrink-0 ${
-                activeFilter === cat 
-                  ? 'bg-purple-600 border-purple-500 text-white shadow-lg shadow-purple-500/20' 
-                  : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white'
+              className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
+                activeFilter === cat
+                  ? 'bg-purple-600 border-purple-600 text-white shadow-md shadow-purple-500/20'
+                  : 'bg-white dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
               }`}
             >
               {cat}
@@ -146,92 +163,103 @@ const MentorPath = () => {
 
       {/* --- GRID LAYOUT --- */}
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+        <div className="flex flex-col justify-center items-center py-24">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-purple-500"></div>
+          <p className="text-xs text-slate-400 mt-4 font-bold">Discovering mentors across network...</p>
         </div>
       ) : filteredMentors.length === 0 ? (
-        <div className="text-center py-20 bg-gray-800/30 rounded-3xl border border-gray-700/50 backdrop-blur-sm">
-          <Filter className="mx-auto h-16 w-16 text-gray-500 mb-4" />
-          <h3 className="text-2xl font-bold text-gray-300">No mentors found</h3>
-          <p className="text-gray-500 mt-2">Try adjusting your filters or be the first to join!</p>
+        <div className="text-center py-20 glass-card rounded-3xl border border-slate-200 dark:border-slate-800">
+          <Filter className="mx-auto h-16 w-16 text-slate-300 dark:text-slate-600 mb-4" />
+          <h3 className="text-2xl font-bold text-slate-700 dark:text-slate-300">No mentors found</h3>
+          <p className="text-slate-400 text-sm mt-1">Try adjusting your search criteria or register as a mentor!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10 pb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredMentors.map((mentor) => (
-            <div 
-              key={mentor._id} 
-              className="group relative bg-gray-800/40 backdrop-blur-md border border-gray-700/50 rounded-3xl p-6 hover:bg-gray-800/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 flex flex-col h-full"
+            <div
+              key={mentor._id}
+              className="glass-card rounded-2xl p-5 border border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-xl transition-all flex flex-col justify-between group relative"
             >
-              {/* Status Badge */}
-              <div className="absolute top-4 right-4 z-10">
-                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${
-                  mentor.isAvailable 
-                    ? 'bg-green-500/10 text-green-400 border-green-500/20' 
-                    : 'bg-red-500/10 text-red-400 border-red-500/20'
-                }`}>
-                  <span className={`w-2 h-2 rounded-full mr-2 ${mentor.isAvailable ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></span>
-                  {mentor.isAvailable ? 'Available' : 'Busy'}
-                </span>
-              </div>
+              <div>
+                {/* Status Badge */}
+                <div className="flex justify-between items-center mb-4">
+                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                    mentor.isAvailable
+                      ? 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300'
+                      : 'bg-red-100 dark:bg-red-950/80 text-red-700 dark:text-red-300'
+                  }`}>
+                    <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${mentor.isAvailable ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></span>
+                    {mentor.isAvailable ? 'Available' : 'Busy'}
+                  </span>
 
-              {/* Profile Header */}
-              <div className="flex items-center gap-4 mb-5">
-                <div className="w-14 h-14 min-w-[3.5rem] rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xl font-bold text-white shadow-lg shadow-indigo-500/20">
-                  {mentor.name.charAt(0)}
+                  <span className="text-[10px] font-bold uppercase text-slate-400">
+                    {mentor.category}
+                  </span>
                 </div>
-                <div className="overflow-hidden">
-                  <h3 className="text-lg font-bold text-white truncate group-hover:text-purple-400 transition-colors">
-                    {mentor.name}
-                  </h3>
-                  <div className="flex items-center text-xs text-gray-400 mt-1">
-                     <Briefcase size={12} className="mr-1 flex-shrink-0" />
-                     <span className="truncate">{mentor.role}</span>
+
+                {/* Profile Header */}
+                <div className="flex items-center gap-3.5 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-lg font-black text-white shadow-md shadow-purple-500/20 flex-shrink-0">
+                    {mentor.name.charAt(0)}
                   </div>
-                  <p className="text-xs text-gray-500 font-medium mt-0.5 truncate">@ {mentor.company}</p>
+                  <div className="overflow-hidden">
+                    <h3 className="text-base font-extrabold text-slate-800 dark:text-slate-100 truncate group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                      {mentor.name}
+                    </h3>
+                    <div className="flex items-center text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                      <Briefcase size={12} className="mr-1 flex-shrink-0" />
+                      <span className="truncate">{mentor.role}</span>
+                    </div>
+                    <p className="text-[11px] text-purple-600 dark:text-purple-400 font-bold truncate">@ {mentor.company}</p>
+                  </div>
+                </div>
+
+                {/* Skills Tags */}
+                <div className="mb-4">
+                  <div className="flex flex-wrap gap-1.5">
+                    {mentor.skills.slice(0, 3).map((skill, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2 py-0.5 text-[11px] font-bold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-700/80"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                    {mentor.skills.length > 3 && (
+                      <span className="px-1.5 py-0.5 text-[10px] text-slate-400 font-bold">
+                        +{mentor.skills.length - 3}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              {/* Skills Tags (Flexible Height) */}
-              <div className="mb-6 flex-grow">
-                <div className="flex flex-wrap gap-2">
-                  {mentor.skills.slice(0, 3).map((skill, idx) => (
-                    <span 
-                      key={idx} 
-                      className="px-2.5 py-1 text-xs font-medium rounded-lg bg-gray-700/50 text-gray-300 border border-gray-600/30"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                  {mentor.skills.length > 3 && (
-                    <span className="px-2 py-1 text-xs text-gray-500">+ {mentor.skills.length - 3}</span>
-                  )}
-                </div>
-              </div>
-
-              {/* Action Buttons (Always at bottom) */}
-              <div className="flex gap-3 mt-auto">
-                <button 
+              {/* Action Buttons */}
+              <div className="flex items-center gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <button
                   onClick={() => handleConnect(mentor._id)}
                   disabled={!mentor.isAvailable}
-                  className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${
+                  className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${
                     mentor.isAvailable
-                      ? 'bg-white text-gray-900 hover:bg-purple-50 hover:scale-105 active:scale-95'
-                      : 'bg-gray-700 text-gray-500 cursor-not-allowed opacity-50'
+                      ? 'bg-purple-600 hover:bg-purple-700 text-white shadow-xs hover:scale-105 active:scale-95'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
                   }`}
                 >
-                  <MessageSquare size={16} />
-                  Connect
+                  <MessageSquare size={14} />
+                  <span>Connect</span>
                 </button>
 
-                <a 
-                  href={mentor.linkedIn}
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="px-3 py-2.5 rounded-xl bg-gray-700/50 text-gray-300 hover:bg-gray-700 hover:text-white transition-all border border-gray-600/30 hover:border-gray-500 flex items-center justify-center"
-                  title="View Profile"
-                >
-                  <ExternalLink size={18} />
-                </a>
+                {mentor.linkedIn && (
+                  <a
+                    href={mentor.linkedIn}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 border border-slate-200 dark:border-slate-700 transition"
+                    title="View LinkedIn Profile"
+                  >
+                    <ExternalLink size={16} />
+                  </a>
+                )}
               </div>
             </div>
           ))}
@@ -240,83 +268,118 @@ const MentorPath = () => {
 
       {/* --- REGISTRATION MODAL --- */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-gray-900 border border-gray-700 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden relative">
-            
-            {/* Modal Header */}
-            <div className="flex justify-between items-center p-6 border-b border-gray-800 bg-gray-800/50">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                <UserCheck className="text-purple-500" /> Register as Mentor
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 animate-fadeIn">
+          <div className="glass-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden relative">
+            <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+              <h2 className="text-lg font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <UserCheck className="text-purple-600" /> Apply as Mentor
               </h2>
-              <button 
-                onClick={() => setShowModal(false)} 
-                className="text-gray-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-gray-800"
+              <button
+                onClick={() => setShowModal(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
               >
-                <X size={24} />
+                <X size={20} />
               </button>
             </div>
 
-            {/* Modal Form */}
             <form onSubmit={handleRegisterSubmit} className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <input 
-                  required placeholder="Your Name" 
-                  className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-white focus:border-purple-500 outline-none transition-colors"
-                  value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
-                />
-                <select 
-                  className="bg-gray-800 border border-gray-700 rounded-xl p-3 text-white outline-none focus:border-purple-500 transition-colors"
-                  value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}
-                >
-                  <option>Placements</option>
-                  <option>Internships</option>
-                  <option>Projects</option>
-                  <option>Higher Studies</option>
-                </select>
-              </div>
+                <div>
+                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 block">Full Name</label>
+                  <input
+                    required
+                    placeholder="Your Name"
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-purple-500"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  />
+                </div>
 
-              <input 
-                required placeholder="Current Role (e.g. SDE Intern)" 
-                className="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 text-white outline-none focus:border-purple-500 transition-colors"
-                value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})}
-              />
-              
-              <input 
-                required placeholder="Company / College Name" 
-                className="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 text-white outline-none focus:border-purple-500 transition-colors"
-                value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}
-              />
-
-              <input 
-                required placeholder="Skills (e.g. React, Java, System Design)" 
-                className="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 text-white outline-none focus:border-purple-500 transition-colors"
-                value={formData.skills} onChange={e => setFormData({...formData, skills: e.target.value})}
-              />
-
-              <input 
-                placeholder="LinkedIn Profile URL" 
-                className="w-full bg-gray-800 border border-gray-700 rounded-xl p-3 text-white outline-none focus:border-purple-500 transition-colors"
-                value={formData.linkedIn} onChange={e => setFormData({...formData, linkedIn: e.target.value})}
-              />
-
-              {/* ID Card Upload */}
-              <div className="border-2 border-dashed border-gray-700 rounded-xl p-6 text-center cursor-pointer hover:bg-gray-800/50 hover:border-purple-500 transition-all relative group">
-                <input 
-                  type="file" accept="image/*" required 
-                  onChange={(e) => setIdFile(e.target.files[0])}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                />
-                <div className="flex flex-col items-center text-gray-400 group-hover:text-purple-400 transition-colors">
-                  <Upload size={32} className="mb-2" />
-                  <span className="text-sm font-medium">
-                    {idFile ? idFile.name : "Click to Upload ID Card / Offer Letter"}
-                  </span>
-                  <span className="text-xs text-gray-500 mt-1">Required for verification (Max 5MB)</span>
+                <div>
+                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 block">Mentorship Category</label>
+                  <select
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-purple-500"
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  >
+                    <option>Placements</option>
+                    <option>Internships</option>
+                    <option>Projects</option>
+                    <option>Higher Studies</option>
+                  </select>
                 </div>
               </div>
 
-              <button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold py-3.5 rounded-xl mt-2 shadow-lg shadow-purple-500/20 transform hover:scale-[1.02] transition-all">
-                Submit Application
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 block">Current Role</label>
+                  <input
+                    required
+                    placeholder="e.g. SDE-1 / Research Scholar"
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-purple-500"
+                    value={formData.role}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 block">Company / Univ</label>
+                  <input
+                    required
+                    placeholder="Google, Microsoft, IIT..."
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-purple-500"
+                    value={formData.company}
+                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 block">Key Competencies & Skills</label>
+                <input
+                  required
+                  placeholder="React, Distributed Systems, DSA, System Design..."
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-purple-500"
+                  value={formData.skills}
+                  onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 block">LinkedIn Profile</label>
+                <input
+                  placeholder="https://linkedin.com/in/yourprofile"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-purple-500"
+                  value={formData.linkedIn}
+                  onChange={(e) => setFormData({ ...formData, linkedIn: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 block">Verification Document (ID / Offer Letter)</label>
+                <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-5 text-center cursor-pointer hover:bg-purple-50/40 dark:hover:bg-purple-950/20 hover:border-purple-400 transition-all relative group">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    required
+                    onChange={(e) => setIdFile(e.target.files[0])}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  />
+                  <div className="flex flex-col items-center text-slate-400 group-hover:text-purple-600 transition-colors">
+                    <Upload size={24} className="mb-1 text-purple-500" />
+                    <span className="text-xs font-bold">
+                      {idFile ? idFile.name : "Click to Upload ID Card / Offer Letter"}
+                    </span>
+                    <span className="text-[10px] text-slate-400 mt-0.5">Required for badge verification (Max 5MB)</span>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black py-3.5 rounded-2xl shadow-lg shadow-purple-500/25 transition-all hover:scale-101 active:scale-99 text-sm"
+              >
+                Submit Mentor Application
               </button>
             </form>
           </div>

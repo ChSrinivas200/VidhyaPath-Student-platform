@@ -19,6 +19,15 @@ import StudyPlanner from './pages/StudyPlanner';
 import FocusPage from './pages/FocusPage';
 import MentorPath from './pages/MentorPath'; 
 import StudentBasket from './pages/StudentBasket'; // ✅ NEW IMPORT
+import RagAssistant from './pages/RagAssistant'; // ✅ AI Colab RAG Assistant
+import SkillAssessments from './pages/SkillAssessments'; // ✅ Tutor Skill Assessments & AI Skill Gap Engine
+import SkillPaths from './pages/SkillPaths'; // ✅ Skill Paths & Curated Roadmaps
+import ProgressAnalytics from './pages/ProgressAnalytics'; // ✅ Progress & Skill-Gap Analytics Dashboard
+import Flashcards from './pages/Flashcards'; // 🎴 3D AI Flashcards
+import MockVivaSimulator from './pages/MockVivaSimulator'; // 🎙️ Mock Viva Examiner
+import ConceptMapGenerator from './pages/ConceptMapGenerator'; // 🧠 Concept Mind Map
+import JudgeShowcase from './pages/JudgeShowcase'; // ✨ Hackathon Judge Showcase
+import TutorLearnersAnalytics from './pages/TutorLearnersAnalytics'; // 🎓 Tutor Learners Analytics & Feature Usage
 
 // --- Components ---
 import Layout from './components/Layout';
@@ -28,6 +37,15 @@ import SplashScreen from './components/SplashScreen';
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('token');
   return token ? children : <Navigate to="/login" />;
+};
+
+// --- Learner Only Route Logic (Tutors authorized exclusively for /assessments) ---
+const LearnerOnlyRoute = ({ children }) => {
+  const token = localStorage.getItem('token');
+  const userRole = localStorage.getItem('userRole');
+  if (!token) return <Navigate to="/login" />;
+  if (userRole === 'tutor') return <Navigate to="/assessments" replace />;
+  return children;
 };
 
 function App() {
@@ -61,7 +79,11 @@ function App() {
             path="/" 
             element={
               <PrivateRoute>
-                <Navigate to="/home" replace />
+                {localStorage.getItem('userRole') === 'tutor' ? (
+                  <Navigate to="/assessments" replace />
+                ) : (
+                  <Navigate to="/home" replace />
+                )}
               </PrivateRoute>
             } 
           />
@@ -69,107 +91,219 @@ function App() {
           <Route 
             path="/home"
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                 <Layout>
                   <Homepage />
                 </Layout>
-              </PrivateRoute>
+              </LearnerOnlyRoute>
             }
           />
 
           <Route 
             path="/dashboard"
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                 <Layout>
                   <Dashboard />
                 </Layout>
-              </PrivateRoute>
+              </LearnerOnlyRoute>
             }
           />
 
           <Route 
             path="/study-planner"
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                 <Layout>
                   <StudyPlanner />
                 </Layout>
-              </PrivateRoute>
+              </LearnerOnlyRoute>
             }
           />
           <Route 
             path="/planner" 
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                 <Layout>
                   <StudyPlanner />
                 </Layout>
-              </PrivateRoute>
+              </LearnerOnlyRoute>
             }
           />
 
-          {/* PDF Tools & Viewer */}
+          {/* Skill Paths & Curated Roadmaps */}
+          <Route 
+            path="/skill-paths"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <SkillPaths />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+          <Route 
+            path="/skill-path"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <SkillPaths />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+          <Route 
+            path="/playlists"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <SkillPaths />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+
+          {/* Progress & Skill-Gap Analytics Module */}
+          <Route 
+            path="/progress"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <ProgressAnalytics />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+          <Route 
+            path="/learner-progress"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <ProgressAnalytics />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+          <Route 
+            path="/analytics"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <ProgressAnalytics />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+
+          {/* Document Q&A Assistant (formerly PDF Viewer) */}
           <Route 
             path="/pdf-viewer"
             element={
-              <PrivateRoute>
-                <Layout>
-                  <PdfViewer />
-                </Layout>
-              </PrivateRoute>
+              <LearnerOnlyRoute>
+                <PdfViewer />
+              </LearnerOnlyRoute>
+            }
+          />
+          <Route 
+            path="/document-assistant"
+            element={
+              <LearnerOnlyRoute>
+                <PdfViewer />
+              </LearnerOnlyRoute>
             }
           />
           <Route 
             path="/pdf-tools"
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                 <Layout>
                   <PdfTools />
                 </Layout>
-              </PrivateRoute>
+              </LearnerOnlyRoute>
             } 
           />
           <Route 
             path="/pdf-tools/:toolId" 
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                 <Layout>
                   <PdfToolView />
                 </Layout>
-              </PrivateRoute>
+              </LearnerOnlyRoute>
             } 
           />
 
-          {/* AI Tools */}
+          {/* AI & Assessment Tools */}
+          {/* ✅ /assessments is accessible to BOTH Tutors (exclusive workspace) and Learners */}
           <Route 
-            path="/summarizer"
+            path="/assessments"
             element={
               <PrivateRoute>
                 <Layout>
-                  <Summarizer />
+                  <SkillAssessments />
                 </Layout>
               </PrivateRoute>
+            }
+          />
+          {/* 🎓 Tutor Analytics & Learners Progress */}
+          <Route 
+            path="/tutor-analytics"
+            element={
+              <PrivateRoute>
+                <Layout>
+                  <TutorLearnersAnalytics />
+                </Layout>
+              </PrivateRoute>
+            }
+          />
+          <Route 
+            path="/learners-progress"
+            element={
+              <PrivateRoute>
+                <Layout>
+                  <TutorLearnersAnalytics />
+                </Layout>
+              </PrivateRoute>
+            }
+          />
+          <Route 
+            path="/rag"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <RagAssistant />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+          <Route 
+            path="/summarizer"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <Summarizer />
+                </Layout>
+              </LearnerOnlyRoute>
             }
           />
           <Route 
             path="/quiz-generator"
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                 <Layout>
                   <QuizGenerator />
                 </Layout>
-              </PrivateRoute>
+              </LearnerOnlyRoute>
             }
           />
           <Route 
             path="/visualizer"
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                 <Layout>
                   <Visualizer />
                 </Layout>
-              </PrivateRoute>
+              </LearnerOnlyRoute>
             }
           />
 
@@ -177,23 +311,33 @@ function App() {
           <Route 
             path="/mentor-path"
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                 <Layout>
                   <MentorPath />
                 </Layout>
-              </PrivateRoute>
+              </LearnerOnlyRoute>
             }
           />
 
-          {/* ✅ StudentBasket Module */}
+          {/* ✅ LearnerBasket Module */}
           <Route 
-            path="/student-basket"
+            path="/learner-basket"
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                 <Layout>
                   <StudentBasket />
                 </Layout>
-              </PrivateRoute>
+              </LearnerOnlyRoute>
+            }
+          />
+          <Route 
+            path="/student-basket"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <StudentBasket />
+                </Layout>
+              </LearnerOnlyRoute>
             }
           />
 
@@ -201,9 +345,67 @@ function App() {
           <Route 
             path="/focus"
             element={
-              <PrivateRoute>
+              <LearnerOnlyRoute>
                  <FocusPage />
-              </PrivateRoute>
+              </LearnerOnlyRoute>
+            }
+          />
+
+          {/* 🎴 3D AI Flashcards */}
+          <Route 
+            path="/flashcards"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <Flashcards />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+
+          {/* 🎙️ Mock Viva Oral Examiner */}
+          <Route 
+            path="/mock-viva"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <MockVivaSimulator />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+
+          {/* 🧠 Concept Mind Map Generator */}
+          <Route 
+            path="/concept-map"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <ConceptMapGenerator />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+
+          {/* ✨ Animated Hackathon Judge Showcase */}
+          <Route 
+            path="/showcase"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <JudgeShowcase />
+                </Layout>
+              </LearnerOnlyRoute>
+            }
+          />
+          <Route 
+            path="/judge-demo"
+            element={
+              <LearnerOnlyRoute>
+                <Layout>
+                  <JudgeShowcase />
+                </Layout>
+              </LearnerOnlyRoute>
             }
           />
 

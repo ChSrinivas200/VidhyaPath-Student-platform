@@ -10,9 +10,24 @@ const ArticleSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  category: {
+    type: String,
+    default: 'General Discussion',
+    trim: true
+  },
+  tags: [{
+    type: String,
+    trim: true
+  }],
   author: {
     type: String,
-    default: 'Anonymous'
+    default: 'Anonymous',
+    trim: true
+  },
+  authorRole: {
+    type: String,
+    default: 'Learner',
+    trim: true
   },
   upvotes: {
     type: Number,

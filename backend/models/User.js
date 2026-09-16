@@ -2,12 +2,25 @@ const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  
-  // ✅ ADDED: Field exists so seeding works, but NO "unique: true"
   username: { type: String }, 
-
-  email: { type: String, required: true, unique: true }, // Email stays unique
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  
+  // --- ROLE & TUTOR AUTHORIZATION ---
+  role: { 
+    type: String, 
+    enum: ['user', 'tutor'], 
+    default: 'user' 
+  },
+  isTutorVerified: { 
+    type: Boolean, 
+    default: false 
+  },
+  specialization: { 
+    type: String, 
+    default: 'Computer Science & Academic Studies' 
+  },
+
   date: { type: Date, default: Date.now },
   
   // --- 1. GAMIFICATION ---
@@ -17,6 +30,8 @@ const UserSchema = new mongoose.Schema({
       current: { type: Number, default: 0 },
       longest: { type: Number, default: 0 },
       lastActiveDate: { type: Date, default: null },
+      lastWindowTime: { type: Date, default: null },
+      windowVisitsCount: { type: Number, default: 0 },
       freezes: { type: Number, default: 1 }
     }
   },
