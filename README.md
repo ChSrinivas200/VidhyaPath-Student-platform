@@ -7,12 +7,21 @@
 ![React](https://img.shields.io/badge/React.js-v18.2-61DAFB?style=for-the-badge&logo=react)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb)
 ![Render](https://img.shields.io/badge/Render-Deployment%20Ready-46E3B7?style=for-the-badge&logo=render)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Watch%20Demo-FF0000?style=for-the-badge&logo=youtube)](https://youtu.be/QMOUjxdObGA)
 
 **Empowering students with AI-driven RAG assistance, skill gap analytics, study planning, binaural focus tools, and interactive exam preparation.**
 
-[Features](#-key-features) • [Tech Stack](#%EF%B8%8F-tech-stack) • [Installation & Setup](#%EF%B8%8F-installation--local-setup) • [Render Deployment](#-render-cloud-deployment) • [API Architecture](#-api-endpoints-overview) • [Environment Variables](#-environment-variables)
+[Video Demo](#-project-demo--video-walkthrough) • [Features](#-key-features) • [Tech Stack](#%EF%B8%8F-tech-stack) • [Installation & Setup](#%EF%B8%8F-installation--local-setup) • [Render Deployment](#-render-cloud-deployment) • [API Architecture](#-api-endpoints-overview)
 
 </div>
+
+---
+
+## 🎥 Project Demo & Video Walkthrough
+
+[![VidyaPath Video Walkthrough](https://img.youtube.com/vi/QMOUjxdObGA/maxresdefault.jpg)](https://youtu.be/QMOUjxdObGA)
+
+▶️ **[Watch the full VidyaPath Demonstration Video on YouTube](https://youtu.be/QMOUjxdObGA)**
 
 ---
 
